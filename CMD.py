@@ -15,20 +15,17 @@ def getWorkspacePanel(workspaceId, panelId):
     toolbarPanels = modelingWorkspace.toolbarPanels
     return toolbarPanels.itemById(panelId)
 
-def getControlAndDefinition( workspaceId, panelId, commandId):
-    objects = []
+def deleteControlAndDefinition( workspaceId, panelId, commandId):
     ui = getUi()
     panel = getWorkspacePanel(workspaceId, panelId) 
     commandControl = panel.controls.itemById(commandId)
     if commandControl:
-        objects.append(commandControl)
+        commandControl.deleteMe()
 
     commandDefinition = ui.commandDefinitions.itemById(commandId)
     if commandDefinition:
-        objects.append(commandDefinition)
+        commandDefinition.deleteMe()
 
-    return objects
-    
 def addCommandToPanel( workspaceId, panelId, commandId, commandName, commandDescription, commandResources, onCommandCreated):
     ui = getUi()
     toolbarPanel = getWorkspacePanel(workspaceId, panelId) 

@@ -95,30 +95,20 @@ class MyCommandCreatedHandler(adsk.core.CommandCreatedEventHandler):
 def run(context):
     ui = None
     try:
-        app = adsk.core.Application.get()
-        ui  = app.userInterface
-        # ui.messageBox('Hello addin')
-
         CMD.addCommandToPanel(workspaceToUse, panelToUse, 
                               commandId, commandName, commandDescription, commandResources, 
                               MyCommandCreatedHandler())
 
     except:
-        if ui:
-            ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
-
-def stop(context):
-    ui = None
-    try:
         app = adsk.core.Application.get()
         ui  = app.userInterface
-        # ui.messageBox('Stop addin')
+        ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
 
-        objArray = CMD.getControlAndDefinition(workspaceToUse, panelToUse, commandId)
+def stop(context):
+    try:
+        CMD.deleteControlAndDefinition(workspaceToUse, panelToUse, commandId)
             
-        for obj in objArray:
-            obj.deleteMe()
-
     except:
-        if ui:
-            ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
+        app = adsk.core.Application.get()
+        ui  = app.userInterface
+        ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
